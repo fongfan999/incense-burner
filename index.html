@@ -9,10 +9,13 @@
   <link rel="stylesheet" href="assets/stylesheets/app.css">
 </head>
 <body>
-  <div class="less-smoke js-less-smoke">
-    <img src="assets/images/smoke-animated.gif">
+  <div class="smoke-lines-wrapper">
+    <div class="less-smoke js-less-smoke">
+      <img src="assets/images/smoke-animated-transparent.gif">
+    </div>
+
+    <canvas class="more-smoke js-more-smoke inactive"></canvas>
   </div>
-  <canvas class="more-smoke js-more-smoke inactive"></canvas>
 
   <div class="incense-holder">
     <img src="assets/images/incense-holder.png">
@@ -22,7 +25,10 @@
     <source src="assets/audios/meditation.mp3" type="audio/mp3">
   </audio>
 
+  <canvas class="background-smoke js-background-smoke"></canvas>
+
   <script type="text/javascript" src="assets/javascripts/sakura.min.js"></script>
+  <script type="text/javascript" src="assets/javascripts/smoke.js"></script>
   <script type="text/javascript" src="assets/javascripts/app.js"></script>
 </body>
 </html>

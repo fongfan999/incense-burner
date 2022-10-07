@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   playBackgroundMusic();
+  addBackgroundSmoke();
 }, false);
 
 (function () {
@@ -7,7 +8,66 @@ document.addEventListener('DOMContentLoaded', function () {
   window.requestAnimationFrame = requestAnimationFrame;
 })();
 
-function drawSmoke() {
+playBackgroundMusic = function() {
+  var clicked = false
+  document.addEventListener('click', function () {
+    if (!clicked) {
+      document.querySelector('.js-background-music').play();
+      makeItRain();
+      addMoreSmoke();
+    }
+
+    clicked = true
+  });
+}
+
+makeItRain = function() {
+  new Sakura('body');
+}
+
+addMoreSmoke = function() {
+  document.querySelector('.js-less-smoke').classList.add('inactive');
+  document.querySelector('.js-more-smoke').classList.remove('inactive');
+  document.querySelector('.js-more-smoke').classList.add('active');
+  drawSmokeLine();
+}
+
+randomIntFromInterval = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+addBackgroundSmoke = function() {
+  var canvas = document.querySelector('.js-background-smoke')
+  var ctx = canvas.getContext('2d')
+  canvas.width = innerWidth
+  canvas.height = innerHeight
+
+  var party = smokemachine(ctx, [231, 233, 235])
+  party.start()
+  party.setPreDrawCallback(function(dt){
+    var x = randomIntFromInterval(0, innerWidth)
+    var y = randomIntFromInterval(0, innerHeight)
+    var time = randomIntFromInterval(.5, 5)
+
+    party.addSmoke(x, y, time)
+  })
+
+  onmousemove = function (e) {
+    var x = e.clientX
+    var y = e.clientY
+    var n = .5
+    var t = Math.floor(Math.random() * 200) + 3800
+    party.addsmoke(x, y, n, t)
+  }
+
+  onresize = function() {
+    canvas.width = innerWidth
+    canvas.height = innerHeight
+  }
+}
+
+
+function drawSmokeLine() {
   var canvas = document.querySelector('.js-more-smoke'),
   ctx = canvas.getContext("2d");
 
@@ -99,29 +159,4 @@ function drawSmoke() {
   function resizeMe() {
     canvas.height = smokeHeight;
   }
-}
-
-playBackgroundMusic = function() {
-  var clicked = false
-  document.addEventListener('click', function () {
-    if (!clicked) {
-      document.querySelector('.js-background-music').play();
-      makeItRain();
-      addMoreSmoke();
-    }
-
-    clicked = true
-  });
-}
-
-makeItRain = function() {
-  new Sakura('body');
-}
-
-addMoreSmoke = function() {
-  document.querySelector('.js-less-smoke').classList.add('inactive');
-  document.querySelector('.js-more-smoke').classList.remove('inactive');
-  document.querySelector('.js-more-smoke').classList.add('active');
-  drawSmoke();
-
 }
