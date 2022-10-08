@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   playBackgroundMusic();
   addBackgroundSmoke();
 }, false);
 
-(function () {
+(function() {
   var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   window.requestAnimationFrame = requestAnimationFrame;
 })();
 
 playBackgroundMusic = function() {
   var clicked = false
-  document.addEventListener('click', function () {
+  document.addEventListener('click', function() {
     if (!clicked) {
       document.querySelector('.js-background-music').play();
       makeItRain();
@@ -44,7 +44,7 @@ addBackgroundSmoke = function() {
 
   var party = smokemachine(ctx, [231, 233, 235])
   party.start()
-  party.setPreDrawCallback(function(dt){
+  party.setPreDrawCallback(function(dt) {
     var x = randomIntFromInterval(0, innerWidth)
     var y = randomIntFromInterval(0, innerHeight)
     var time = randomIntFromInterval(.5, 5)
@@ -52,24 +52,24 @@ addBackgroundSmoke = function() {
     party.addSmoke(x, y, time)
   })
 
-  onmousemove = function (e) {
-    var x = e.clientX
-    var y = e.clientY
-    var n = .5
-    var t = Math.floor(Math.random() * 200) + 3800
-    party.addsmoke(x, y, n, t)
-  }
+  window.addEventListener('onmousemove', function() {
+    var x = e.clientX;
+    var y = e.clientY;
+    var n = .5;
+    var t = Math.floor(Math.random() * 200) + 3800;
+    party.addsmoke(x, y, n, t);
+  }, true);
 
-  onresize = function() {
+  window.addEventListener('resize', function() {
     canvas.width = innerWidth
     canvas.height = innerHeight
-  }
+  }, true);
 }
 
 
 function drawSmokeLine() {
   var canvas = document.querySelector('.js-more-smoke'),
-  ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
 
   var smokeWidth = 300;
   var smokeHeight = 400;
@@ -78,12 +78,12 @@ function drawSmokeLine() {
   canvas.height = smokeHeight;
 
   var parts = [],
-  minSpawnTime = 40,
-  lastTime = new Date().getTime(),
-  maxLifeTime = Math.min(5000, (canvas.height/(1.5*60)*1000)),
-  emitterX = canvas.width / 2,
-  emitterY = canvas.height - 10,
-  smokeImage = new Image();
+    minSpawnTime = 40,
+    lastTime = new Date().getTime(),
+    maxLifeTime = Math.min(5000, (canvas.height / (1.5 * 60) * 1000)),
+    emitterX = canvas.width / 2,
+    emitterY = canvas.height - 10,
+    smokeImage = new Image();
 
   function spawn() {
     if (new Date().getTime() > lastTime + minSpawnTime) {
@@ -103,13 +103,13 @@ function drawSmokeLine() {
         parts[len].update();
 
         ctx.save();
-        var offsetX = -parts[len].size/2,
-        offsetY = -parts[len].size/2;
+        var offsetX = -parts[len].size / 2,
+          offsetY = -parts[len].size / 2;
 
-        ctx.translate(parts[len].x-offsetX, parts[len].y-offsetY);
+        ctx.translate(parts[len].x - offsetX, parts[len].y - offsetY);
         ctx.rotate(parts[len].angle / 180 * Math.PI);
-        ctx.globalAlpha  = parts[len].alpha;
-        ctx.drawImage(smokeImage, offsetX,offsetY, parts[len].size, parts[len].size);
+        ctx.globalAlpha = parts[len].alpha;
+        ctx.drawImage(smokeImage, offsetX, offsetY, parts[len].size, parts[len].size);
         ctx.restore();
       }
     }
@@ -130,11 +130,11 @@ function drawSmokeLine() {
     this.startLife = new Date().getTime();
     this.lifeTime = 0;
 
-    this.velY = -1 - (Math.random()*0.5);
+    this.velY = -1 - (Math.random() * 0.5);
     this.velX = Math.floor(Math.random() * (-6) + 3) / 10;
   }
 
-  smoke.prototype.update = function () {
+  smoke.prototype.update = function() {
     this.lifeTime = new Date().getTime() - this.startLife;
     this.angle += 0.2;
 
@@ -143,20 +143,21 @@ function drawSmokeLine() {
     this.size = this.startSize + ((this.endSize - this.startSize) * lifePerc * .1);
 
     this.alpha = 1 - (lifePerc * .01);
-    this.alpha = Math.max(this.alpha,0);
+    this.alpha = Math.max(this.alpha, 0);
 
     this.x += this.velX;
     this.y += this.velY;
   }
 
   smokeImage.src = "assets/images/smoke.png";
-  smokeImage.onload = function () {
+  smokeImage.onload = function() {
     render();
   }
 
-  window.onresize = resizeMe;
-  window.onload = resizeMe;
   function resizeMe() {
     canvas.height = smokeHeight;
   }
+
+  window.addEventListener('onload', resizeMe, true);
+  window.addEventListener('resize', resizeMe, true);
 }
