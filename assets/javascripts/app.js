@@ -71,8 +71,8 @@ function drawSmokeLine() {
   var canvas = document.querySelector('.js-more-smoke'),
     ctx = canvas.getContext("2d");
 
-  var smokeWidth = 300;
-  var smokeHeight = 400;
+  var smokeWidth = 400;
+  var smokeHeight = innerHeight / 2;
 
   canvas.width = smokeWidth;
   canvas.height = smokeHeight;
@@ -82,7 +82,7 @@ function drawSmokeLine() {
     lastTime = new Date().getTime(),
     maxLifeTime = Math.min(5000, (canvas.height / (1.5 * 60) * 1000)),
     emitterX = canvas.width / 2,
-    emitterY = canvas.height - 10,
+    emitterY = canvas.height,
     smokeImage = new Image();
 
   function spawn() {

@@ -11,23 +11,31 @@ body, html {
   cursor: pointer;
 }
 
+.smoke-lines-wrapper {
+  position: relative;
+  height: 50vh;
+}
+
 .less-smoke {
+  height: 100%;
   text-align: center;
-  margin-bottom: -40px;
+  width: 300px;
+  margin-left: calc(50% - 150px);
+}
+
+.less-smoke img {
+  width: 300px;
+  height: 100%;
 }
 
 .less-smoke.inactive {
   position: absolute;
-  margin-left: calc(50% - 200px);
 }
 
-.less-smoke img {
-  height: 440px;
-}
 
-.less-smoke.inactive img {
-  height: 400px;
-}
+/*.less-smoke.inactive img {
+  height: 50vh;
+}*/
 
 .more-smoke {
   position: relative;
@@ -40,6 +48,12 @@ body, html {
 
 .incense-holder {
   text-align: center;
+  height: 50vh;
+}
+
+.incense-holder img {
+  max-width: 375px;
+  height: auto;
 }
 
 .background-smoke {
